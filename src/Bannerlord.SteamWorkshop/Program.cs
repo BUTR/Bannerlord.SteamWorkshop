@@ -20,13 +20,17 @@ namespace Bannerlord.SteamWorkshop
                 .WithParsed<SteamTOTPOptions>(o => { Console.Write(SteamTOTP.GenerateAuthCode(o.Secret, o.Time)); })
                 .WithNotParsed(e => { Console.Write("INVALID COMMAND"); });
 
-        private class Item
+        private class Root
         {
-            public string AppId { get; set; }
-            public string PublishedFileId { get; set; }
-            public string ContentFolder { get; set; }
-            public string Changenote { get; set; }
-            public List<string> Tags { get; set; }
+            public WorkshopItem workshopitem { get; set; }
+        }
+        private class WorkshopItem
+        {
+            public string appid { get; set; }
+            public string publishedfileid { get; set; }
+            public string contentfolder { get; set; }
+            public string changenote { get; set; }
+            public List<string> tags { get; set; }
         }
 
         private static void LoginAndPublish(string login, string password, string? totp, string fileId, string contentPath, string changelog)
@@ -37,13 +41,16 @@ namespace Bannerlord.SteamWorkshop
             var versions = changelogCurrent?.SupportedGameVersions;
 
             var serializer = new VdfSerializer();
-            var content = serializer.Serialize(new Item
+            var content = serializer.Serialize(new Root
             {
-                AppId = "261550",
-                PublishedFileId = fileId,
-                ContentFolder = contentPath,
-                Changenote = changelog,
-                Tags = versions?.ToList() ?? new List<string>()
+                workshopitem = new WorkshopItem
+                {
+                    appid = "261550",
+                    publishedfileid = fileId,
+                    contentfolder = contentPath,
+                    changenote = changelog,
+                    tags = versions?.ToList() ?? new List<string>()
+                }
             });
 
             var code = SteamTOTP.GenerateAuthCode(totp, null);

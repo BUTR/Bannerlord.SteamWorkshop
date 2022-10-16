@@ -33,8 +33,8 @@ namespace Bannerlord.SteamWorkshop
         {
             var changelogCurrent = GetChangelogEntries(new MemoryStream(Encoding.UTF8.GetBytes(changelog)))
                 .OrderByDescending(x => x.Version, new AlphanumComparatorFast())
-                .First();
-            var versions = changelogCurrent.SupportedGameVersions;
+                .FirstOrDefault();
+            var versions = changelogCurrent?.SupportedGameVersions;
 
             var serializer = new VdfSerializer();
             var content = serializer.Serialize(new Item
@@ -43,7 +43,7 @@ namespace Bannerlord.SteamWorkshop
                 PublishedFileId = fileId,
                 ContentFolder = contentPath,
                 Changenote = changelog,
-                Tags = versions.ToList()
+                Tags = versions?.ToList() ?? new List<string>()
             });
 
             var file = Path.Combine(Path.GetTempPath(), $"{Path.GetRandomFileName()}.vdf");

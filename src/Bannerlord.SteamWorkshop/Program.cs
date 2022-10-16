@@ -46,9 +46,10 @@ namespace Bannerlord.SteamWorkshop
                 Tags = versions?.ToList() ?? new List<string>()
             });
 
+            var code = SteamTOTP.GenerateAuthCode(totp, null);
             var file = Path.Combine(Path.GetTempPath(), $"{Path.GetRandomFileName()}.vdf");
             File.WriteAllText(file, content);
-            Process.Start("steamcmd", $@"+login ""{login}"" ""{password}"" ""{totp}"" +workshop_build_item ""{file}"" +quit").WaitForExit();
+            Process.Start("steamcmd", $@"+login ""{login}"" ""{password}"" ""{code}"" +workshop_build_item ""{file}"" +quit").WaitForExit();
             File.Delete(file);
         }
 

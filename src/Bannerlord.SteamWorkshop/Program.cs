@@ -30,15 +30,15 @@ namespace Bannerlord.SteamWorkshop
             public string publishedfileid { get; set; }
             public string contentfolder { get; set; }
             public string changenote { get; set; }
-            public List<string> tags { get; set; }
+            //public List<string> tags { get; set; }
         }
 
         private static void LoginAndPublish(string login, string password, string? totp, string fileId, string contentPath, string changelog)
         {
-            var changelogCurrent = GetChangelogEntries(new MemoryStream(Encoding.UTF8.GetBytes(changelog)))
-                .OrderByDescending(x => x.Version, new AlphanumComparatorFast())
-                .FirstOrDefault();
-            var versions = changelogCurrent?.SupportedGameVersions;
+            //var changelogCurrent = GetChangelogEntries(new MemoryStream(Encoding.UTF8.GetBytes(changelog)))
+            //    .OrderByDescending(x => x.Version, new AlphanumComparatorFast())
+            //    .FirstOrDefault();
+            //var versions = changelogCurrent?.SupportedGameVersions;
 
             var serializer = new VdfSerializer();
             var content = serializer.Serialize(new Root
@@ -49,7 +49,7 @@ namespace Bannerlord.SteamWorkshop
                     publishedfileid = fileId,
                     contentfolder = contentPath,
                     changenote = changelog,
-                    tags = versions?.ToList() ?? new List<string>()
+                    //tags = versions?.ToList() ?? new List<string>()
                 }
             });
 

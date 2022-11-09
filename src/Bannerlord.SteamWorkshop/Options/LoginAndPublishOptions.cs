@@ -5,7 +5,6 @@ namespace Bannerlord.SteamWorkshop.Options
     [Verb("loginandpublish", HelpText = "Login to Steam and publish content.")]
     public class LoginAndPublishOptions
     {
-        // string login, string password, string totp, string fileId, string contentPath, string description
         [Option('l', "login", Required = true)]
         public string Login { get; set; } = default!;
 

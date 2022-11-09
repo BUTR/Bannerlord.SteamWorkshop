@@ -37,6 +37,8 @@
 
   <ItemGroup>
     <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="Facepunch.Steamworks" Version="2.3.3" />
+    <PackageReference Include="Facepunch.Steamworks.Library" Version="2.3.3" />
     <PackageReference Include="VdfConverter" Version="1.0.3" />
   </ItemGroup>
 

@@ -18,4 +18,7 @@ When installed as a global tool:
 bannerlord_steam_workshop loginandpublish -l login -p password -t XXXXX -f 1234 -c "$PWD/Modules/Module" -d test
 
 bannerlord_steam_workshop steamtotp -s "sdfsdfgdshdh"
+
+# Requires Steam Client, SteamCMD or anything else won't work
+bannerlord_steam_workshop steamretag -a 261550 -f 2859188632 -t "v1.0.0" "v1.0.1"
 ```

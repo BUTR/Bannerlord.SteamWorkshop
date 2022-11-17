@@ -72,7 +72,27 @@ namespace Bannerlord.SteamWorkshop
             var code = SteamTOTP.GenerateAuthCode(totp, null);
             var file = Path.Combine(Path.GetTempPath(), $"{Path.GetRandomFileName()}.vdf");
             File.WriteAllText(file, content);
-            Process.Start("steamcmd", $@"+login ""{login}"" ""{password}"" ""{code}"" +workshop_build_item ""{file}"" +quit").WaitForExit();
+
+            var processStartInfo = new ProcessStartInfo("steamcmd", $@"+login ""{login}"" ""{password}"" ""{code}"" +workshop_build_item ""{file}"" +quit");
+            Process? process = default;
+            try
+            {
+                var retryCounter = 0;
+                do
+                {
+                    retryCounter++;
+                    process = Process.Start(processStartInfo)!;
+                    process.WaitForExit();
+
+                } while (retryCounter < 10 && process.ExitCode != 0);
+                if (retryCounter >= 10 && process.ExitCode != 0)
+                    throw new Exception("Failed to Publish!");
+            }
+            finally
+            {
+                process?.Dispose();
+            }
+
             File.Delete(file);
         }
 
